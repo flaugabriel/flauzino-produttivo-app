@@ -25,21 +25,21 @@ RSpec.describe Api::V1::PlacesController, type: :controller do
       it { expect(response.status).to eq(200) }
 
       it 'when not have list of place' do
-        expect(json['messenger']).to eq('Não foi encontrado equipamentos')
+        expect(json['messenger']).to eq('Não foi encontrado locais')
       end
     end
   end
 
   describe '# GET show' do
     context 'when find' do
-      let(:equipment) { FactoryBot.create(:equipment) }
+      let(:place) { FactoryBot.create(:place) }
 
       before do
-        get :show, params: {id: equipment.id}
+        get :show, params: { id: place.id }
       end
 
       it { expect(response.status).to eq(200) }
-      it { expect(json['name']).to eq(equipment.name) }
+      it { expect(json['name']).to eq(place.name) }
       it { expect(json.present?).to eq(true) }
     end
   end

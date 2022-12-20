@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Equipments', type: :request do
+RSpec.describe 'Equipment', type: :request do
   describe "DELETE /destroy" do
     let!(:equipment) { FactoryBot.create(:equipment) }
 

@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :place do
-    name { "MyString" }
+    name { Faker::Name.unique.name }
   end
 
   factory :equipment do

@@ -3,11 +3,11 @@ class Api::V1::EquipmentsController < ApplicationController
 
   # GET /equipments
   def index
-    equipment = Equipment.order('updated_at desc')
+    equipments = Equipment.order('updated_at desc')
 
-    return json_error_response('Não foi encontrado equipamentos', :not_found) unless equipment.present?
+    return json_error_response('Não foi encontrado equipamentos', :not_found) unless equipments.present?
 
-    render json: equipment, each_serializer: Api::V1::EquipmentSerializer, status: :ok
+    render json: equipments, each_serializer: Api::V1::EquipmentSerializer, status: :ok
   end
 
   # GET /equipments/1

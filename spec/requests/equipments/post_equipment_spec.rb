@@ -34,7 +34,7 @@ RSpec.describe 'Equipment', type: :request do
                           } }
       end
 
-      it 'returns a unprocessable entity status' do
+      it 'returns a unprocessable entity status 422' do
         expect(response.status).to eq(422)
         expect(json['messenger'].present?).to eq(true)
       end

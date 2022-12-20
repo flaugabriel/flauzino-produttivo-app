@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'PUT /api/v1/equipment/:id' do
   let(:equipment) { FactoryBot.create(:equipment) }
 
-  it 'updates a question' do
+  it 'updates a place' do
     @equipment_name = Faker::Name.unique.name
     put "/api/v1/equipments/#{equipment.id}", params: { equipment: { name: @equipment_name } }
 
