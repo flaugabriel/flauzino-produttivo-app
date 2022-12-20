@@ -1,34 +1,34 @@
 require 'rails_helper'
 
-RSpec.describe 'Equipament', type: :request do
+RSpec.describe 'Equipment', type: :request do
   describe 'POST /create' do
     context 'with valid parameters' do
-      let!(:my_equipament) { FactoryBot.create(:equipament) }
+      let!(:my_equipment) { FactoryBot.create(:equipment) }
 
       before do
-        post '/api/v1/equipaments', params:
+        post '/api/v1/equipments', params:
                           { equipament: {
-                            code: my_equipament.code,
-                            name: my_equipament.name,
-                            mark: my_equipament.mark,
-                            type_equipament: my_equipament.type_equipament
+                            code: my_equipment.code,
+                            name: my_equipment.name,
+                            mark: my_equipment.mark,
+                            type_equipament: my_equipment.type_equipament
                           } }
       end
 
       it 'returns the code' do
-        expect(json['code']).to eq(my_equipament.code)
+        expect(json['code']).to eq(my_equipment.code)
       end
 
       it 'returns the name' do
-        expect(json['name']).to eq(my_equipament.name)
+        expect(json['name']).to eq(my_equipment.name)
       end
 
       it 'returns the mark' do
-        expect(json['mark']).to eq(my_equipament.mark)
+        expect(json['mark']).to eq(my_equipment.mark)
       end
 
       it 'returns the content' do
-        expect(json['type_equipament']).to eq(my_equipament.type_equipament)
+        expect(json['type_equipment']).to eq(my_equipment.type_equipament)
       end
 
       it 'returns a created status' do
@@ -39,7 +39,7 @@ RSpec.describe 'Equipament', type: :request do
     context 'with invalid parameters' do
       before do
         post '/api/v1/posts', params:
-                          { equipament: {
+                          { equipment: {
                             name: '',
                             code: '',
                             makr: '',

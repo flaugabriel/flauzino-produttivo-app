@@ -1,4 +1,4 @@
-class Equipament < ApplicationRecord
+class Equipment < ApplicationRecord
   enum status: %w[ar_condicionado cafeteria computador monitor mouse teclado]
 
   validates :name, uniqueness: { message: 'deve ser unico' }
