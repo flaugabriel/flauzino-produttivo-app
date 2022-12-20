@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe 'Equipment', type: :request do
@@ -6,39 +7,24 @@ RSpec.describe 'Equipment', type: :request do
       let!(:my_equipment) { FactoryBot.create(:equipment) }
 
       before do
+        Equipment.delete_all
         post '/api/v1/equipments', params:
-                          { equipament: {
+                          { equipment: {
                             code: my_equipment.code,
                             name: my_equipment.name,
                             mark: my_equipment.mark,
-                            type_equipament: my_equipment.type_equipament
+                            type_equipment: my_equipment.type_equipment
                           } }
       end
 
-      it 'returns the code' do
-        expect(json['code']).to eq(my_equipment.code)
-      end
-
-      it 'returns the name' do
-        expect(json['name']).to eq(my_equipment.name)
-      end
-
-      it 'returns the mark' do
-        expect(json['mark']).to eq(my_equipment.mark)
-      end
-
-      it 'returns the content' do
-        expect(json['type_equipment']).to eq(my_equipment.type_equipament)
-      end
-
       it 'returns a created status' do
-        expect(response).to have_http_status(:created)
+        expect(response.status).to eq(201)
       end
     end
 
     context 'with invalid parameters' do
       before do
-        post '/api/v1/posts', params:
+        post '/api/v1/equipments', params:
                           { equipment: {
                             name: '',
                             code: '',
@@ -49,7 +35,8 @@ RSpec.describe 'Equipment', type: :request do
       end
 
       it 'returns a unprocessable entity status' do
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.status).to eq(422)
+        expect(json['messenger'].present?).to eq(true)
       end
     end
   end

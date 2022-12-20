@@ -19,11 +19,15 @@ group :development do
 end
 
 group :development, :test do
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 3.6'
+  gem 'faker'
+  gem 'factory_bot_rails'
+  gem 'database_cleaner'
   gem 'debug', platforms: %i[ mri mingw x64_mingw ]
 end
 
 group :test do
+  gem 'shoulda-matchers', require: false
   gem 'factory_bot_rails'
   gem 'faker'
 end
