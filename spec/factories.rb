@@ -1,13 +1,13 @@
 FactoryBot.define do
   factory :place do
-    name { Faker::Name.unique.name }
+    name { Faker::Name.name}
   end
 
   factory :equipment do
-    code { Faker::Number.number(digits: 5) }
-    name { Faker::Name.unique.name }
-    mark { Faker::Types.rb_string }
+    code { Faker::Computer.rand_in_range(10000, 0) }
+    name { Faker::Name.name }
+    mark { Faker::Appliance.brand }
     type_equipment { Faker::Number.within(range: 0..5) }
-    description { Faker::Lorem.paragraph_by_chars(number: 210) }
+    description { Faker::Computer.stack }
   end
 end
