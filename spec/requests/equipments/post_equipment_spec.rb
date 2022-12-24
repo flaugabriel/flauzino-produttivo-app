@@ -19,6 +19,7 @@ RSpec.describe 'Equipment', type: :request do
 
       it 'returns a created status' do
         expect(response.status).to eq(201)
+        expect(json['equipment'].present?).to eq(true)
       end
     end
 
@@ -35,7 +36,7 @@ RSpec.describe 'Equipment', type: :request do
       end
 
       it 'returns a unprocessable entity status 422' do
-        expect(response.status).to eq(422)
+        expect(json['status']).to eq(422)
         expect(json['messenger'].present?).to eq(true)
       end
     end
