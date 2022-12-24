@@ -3,10 +3,11 @@ class Api::V1::EquipmentsController < ApplicationController
 
   def index
     equipments = Equipment.order('updated_at desc')
+    filtered_equipments = Equipments::IndexFilter.new.call(equipments, params)
 
     return json_error_response('Não foi encontrado equipamentos', :not_found) unless equipments.present?
 
-    render json: equipments, each_serializer: Api::V1::EquipmentSerializer, status: :ok
+    render json: filtered_equipments, each_serializer: Api::V1::EquipmentSerializer, status: :ok
   end
 
   def show

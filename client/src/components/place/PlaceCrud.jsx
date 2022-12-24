@@ -126,7 +126,7 @@ export default class PlaceCrud extends Component {
                   ))
                 ) : (
                   <option selected disabled>
-                    Não foram encontrado locais (Cadastre um novo clicando)
+                    Não foram encontrado locais (Cadastre um novo!)
                   </option>
                 )}
               </select>

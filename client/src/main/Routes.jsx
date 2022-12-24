@@ -8,7 +8,7 @@ import PlaceCrud from '../components/place/PlaceCrud'
 export default props => 
     <Switch>
         <Route exact path='/' component={Home} />
-        <Route path='/equipaments' component={EquipmentCrud} />
+        <Route path='/equipments' component={EquipmentCrud} />
         <Route path='/places' component={PlaceCrud} />
         <Redirect from='*' to='/' />
     </Switch>
