@@ -2,7 +2,7 @@ class Api::V1::EquipmentSerializer < ActiveModel::Serializer
   attributes :id, :code, :name, :mark, :type_equipment, :description, :place
 
   def type_equipment
-    object.type_equipment || ''
+    object.type_equipment.titleize || ''
   end
 
   def place

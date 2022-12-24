@@ -21,7 +21,7 @@ class Api::V1::EquipmentsController < ApplicationController
     if equipment.save
       render json: { messenger: 'Cadastro realizado', equipment: equipment }, status: :created
     else
-      render json: { messenger: equipment.errors.full_messages.to_sentence }, status: :unprocessable_entity
+      render json: { messenger: equipment.errors.full_messages.to_sentence, status: 422 }
     end
   end
 
@@ -52,6 +52,6 @@ class Api::V1::EquipmentsController < ApplicationController
     end
 
     def equipment_params
-      params.require(:equipment).permit(:code, :name, :mark, :type_equipment, :description, :place_id)
+      params.require(:equipment).permit(:id, :code, :name, :mark, :type_equipment, :description, :place_id)
     end
 end

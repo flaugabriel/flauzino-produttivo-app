@@ -3,11 +3,11 @@ class Api::V1::PlacesController < ApplicationController
   before_action :set_place, only: %i[show update destroy build_ancestry]
 
   def index
-    places = Place.order('updated_at desc')
+    places = Place.order('created_at asc')
 
     return json_error_response('Não foi encontrado locais', :not_found) unless places.present?
 
-    render json: places, each_serializer: Api::V1::PlaceSerializer, status: :ok
+    render json: places, status: :ok
   end
 
   def show
@@ -22,7 +22,7 @@ class Api::V1::PlacesController < ApplicationController
     if place.save
       render json: { messenger: 'Cadastro realizado', place: place }, status: :created
     else
-      render json: { messenger: place.errors.full_messages.to_sentence }, status: :unprocessable_entity
+      render json: { messenger: place.errors.full_messages.to_sentence, status: 422 }
     end
   end
 
@@ -45,7 +45,12 @@ class Api::V1::PlacesController < ApplicationController
   end
 
   def destroy
-    @place.destroy
+    if @place.equipments.present?
+      render json: { messenger: 'Existe equipamentos neste local, remova antes!', status: 422 }
+    else
+      @place.destroy
+    end
+
   end
 
   private
@@ -57,6 +62,6 @@ class Api::V1::PlacesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def place_params
-      params.require(:place).permit(:name)
+      params.require(:place).permit(:id, :name)
     end
 end

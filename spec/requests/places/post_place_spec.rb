@@ -22,7 +22,7 @@ RSpec.describe 'Place', type: :request do
       end
 
       it 'returns a unprocessable entity status' do
-        expect(response.status).to eq(422)
+        expect(json['status']).to eq(422)
         expect(json['messenger'].present?).to eq(true)
       end
     end
