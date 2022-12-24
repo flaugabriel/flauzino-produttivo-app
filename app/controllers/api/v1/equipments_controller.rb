@@ -29,7 +29,7 @@ class Api::V1::EquipmentsController < ApplicationController
     if @equipment.update(equipment_params)
       render json: { messenger: 'Atualizado com successo!', equipment: @equipment }, status: :ok
     else
-      render json: @equipment.errors, status: :unprocessable_entity
+      render json: { messenger: @equipment.errors.full_messages.to_sentence, status: 422 }
     end
   end
 
@@ -37,7 +37,7 @@ class Api::V1::EquipmentsController < ApplicationController
     if @equipment.update(equipment_params)
       render json: { messenger: 'Atualizado com successo!', equipment: @equipment }, status: :ok
     else
-      render json: @equipment.errors, status: :unprocessable_entity
+      render json: { messenger: @equipment.errors.full_messages.to_sentence, status: 422 }
     end
   end
 

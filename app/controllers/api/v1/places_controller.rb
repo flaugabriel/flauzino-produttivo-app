@@ -32,7 +32,7 @@ class Api::V1::PlacesController < ApplicationController
 
       render json: { messenger: "Local vinculado ao #{@place.name}", place: place }, status: :created
     else
-      render json: { messenger: place.errors.full_messages.to_sentence }, status: :unprocessable_entity
+      render json: { messenger: place.errors.full_messages.to_sentence, status: 422 }
     end
   end
 
@@ -40,7 +40,7 @@ class Api::V1::PlacesController < ApplicationController
     if @place.update(place_params)
       render json: { messenger: 'Atualizado com successo!', place: @place }, status: :ok
     else
-      render json: @place.errors, status: :unprocessable_entity
+      render json: { messenger: @place.errors.full_messages.to_sentence, status: 422 }
     end
   end
 

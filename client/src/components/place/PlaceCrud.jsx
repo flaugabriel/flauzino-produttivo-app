@@ -35,7 +35,7 @@ const COLUMNS = [
 ];
 
 const OPTIONS = {
-  minimumColWidth: 100,
+  minimumColWidth: 200,
   expandAll: true,
   canSelect: true,
 };
@@ -60,6 +60,7 @@ export default class PlaceCrud extends Component {
     const method = place.id ? "put" : "post";
     const url = place.id ? `${baseUrl}/${place.id}` : baseUrl;
     axios[method](url, place).then((resp) => {
+      console.log('error',resp.data);
       if (resp.data.place === undefined) {
         this.setState({ msg: resp.data.messenger, status: resp.data.status });
       } else {
@@ -67,7 +68,7 @@ export default class PlaceCrud extends Component {
         this.setState({
           place: initialState.place,
           list,
-          msg: resp.data.messenger,
+          msg: resp.data.messenger, status: resp.data.status
         });
       }
       this.showAlert();

@@ -50,7 +50,7 @@ export default class EquipmentCrud extends Component {
 					this.setState({msg: resp.data.messenger, status: resp.data.status})
 				}else {
 					const list = this.getUpdatedList(resp.data.equipment)
-					this.setState(JSON.stringify({ equipment: initialState.equipment, list }))
+					this.setState({ equipment: initialState.equipment, list, msg: resp.data.messenger, status: resp.data.status });
 				}
 				this.showAlert()
 			})
@@ -142,7 +142,7 @@ export default class EquipmentCrud extends Component {
 									<option value="" selected>Adiciona em um local</option>
 									{this.state.places && this.state.places.length > 0 ?
 								this.state.places.map((place) =>
-								<option value={place.id}>{place.title}</option>
+								<option value={place.id}>{place.name}</option>
 								) : <option selected disabled>Não foram encontrado locais (Cadastre um novo clicando)</option>
 							}
 						</select>
@@ -164,7 +164,18 @@ export default class EquipmentCrud extends Component {
 				<hr />
 				<div className="row">
 					<div className="col-12 d-flex justify-content-end">
-						<button className="btn btn-primary"
+					<div className="dropdown">
+						  <a className="btn btn-secondary dropdown-toggle" href="/equipaments#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    Filtre por Local
+						  </a>
+
+						  <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+						    <a className="dropdown-item" href="/#">Action</a>
+						    <a className="dropdown-item" href="/#">Another action</a>
+						    <a className="dropdown-item" href="/#">Something else here</a>
+						  </div>
+						</div>
+						<button className="btn btn-primary  ml-2"
 							onClick={e => this.save(e)}>
 							Salvar
 						</button>
@@ -221,7 +232,7 @@ export default class EquipmentCrud extends Component {
 					<td>{equipment.mark}</td>
 					<td>{equipment.type_equipment}</td>
 					<td>{equipment.description}</td>
-					<td>{equipment.place.name}</td>
+					<td>{equipment.place?.name}</td>
 					<td>
 						<button className="btn btn-warning"
 							onClick={() => this.load(equipment)}>
