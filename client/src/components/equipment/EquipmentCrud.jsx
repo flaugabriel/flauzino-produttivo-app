@@ -13,7 +13,7 @@ const baseUrl = "http://localhost:3030/api/v1/equipments";
 const baseUrlPlaces = "http://localhost:3030/api/v1/places";
 const initialState = {
   equipment: {
-    code: 0,
+    code: '',
     name: "",
     mark: "",
     type_equipment: "",
