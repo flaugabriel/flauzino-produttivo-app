@@ -49,4 +49,4 @@ jobs:
         run: |
           cp config/database.ci.yml config/database.yml
           bundle exec rails db:schema:load
-          bundle exec rspec --format progress
+          bundle exec rspec spec/ --format progress
