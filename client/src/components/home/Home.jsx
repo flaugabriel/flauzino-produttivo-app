@@ -145,7 +145,7 @@ export default class Home extends Component {
                       id="id"
                       name="id"
                       onChange={(e) => this.updateFieldEquipment(e)}
-                      value={this.state.place.id}
+                      value={this.state.equipment.id}
                     >
                       <option value="" selected>
                         Selecione...
