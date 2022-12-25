@@ -22,3 +22,5 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+![Test](https://github.com/flaugabriel/flauzino-produttivo-app/actions/workflows/ruby.yml/badge.svg)
