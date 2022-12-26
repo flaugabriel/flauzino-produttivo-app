@@ -5,7 +5,7 @@ services:
     container_name: web
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: DockerFile.dev
     tty: true
     command: bash start.sh
     volumes:
