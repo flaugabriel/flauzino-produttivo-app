@@ -20,7 +20,7 @@ services:
   client: &client
     container_name: client
     build:
-      context: ./front-end
+      context: ./client
       dockerfile: DockerFile.dev
     command: bash start-client.sh
     tty: true
