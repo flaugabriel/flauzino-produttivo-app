@@ -1,16 +1,19 @@
 import React, { Component } from "react";
 import Main from "../template/Main";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const baseUrl = "http://localhost:3030/api/v1/equipments";
 const baseUrlPlaces = "http://localhost:3030/api/v1/places";
+const baseUrlPlacesToPlace = "http://localhost:3030/api/v1/places/build_ancestry";
 
 const initialState = {
   equipment: {
     id: "",
     place_id: "",
   },
-  place: { name: "" },
+  new_place: { name: "" },
+  place_id: '',
   places: [],
   equipments: [],
   msg: "",
@@ -30,18 +33,17 @@ export default class Home extends Component {
     });
   }
 
-	saveEquipmentToPlace() {
+  saveEquipmentToPlace() {
     const equipment = this.state.equipment;
     const method = equipment.id ? "put" : "post";
     const url = equipment.id ? `${baseUrl}/${equipment.id}` : baseUrl;
     axios[method](url, equipment).then((resp) => {
+      console.log('resp', resp);
       if (resp.data.equipment === undefined) {
         this.setState({ msg: resp.data.messenger, status: resp.data.status });
       } else {
-        const list = this.getUpdatedList(resp.data.equipment);
         this.setState({
           equipment: initialState.equipment,
-          list,
           msg: resp.data.messenger,
           status: resp.data.status,
         });
@@ -50,36 +52,48 @@ export default class Home extends Component {
     });
   }
 
-	updateFieldEquipment(event) {
+  updateFieldEquipment(event) {
     const equipment = { ...this.state.equipment };
     equipment[event.target.name] = event.target.value;
     this.setState({ equipment });
   }
 
-	updateFieldPlace(event) {
-    const place = { ...this.state.place };
-    place[event.target.name] = event.target.value;
-    this.setState({ place });
+  setCurrentPlaceId(event){
+    this.setState({ place_id:  event.target.value });
   }
 
-	savePlaceToPlace() {
-    const equipment = this.state.equipment;
-    const method = equipment.id ? "put" : "post";
-    const url = equipment.id ? `${baseUrl}/${equipment.id}` : baseUrl;
-    axios[method](url, equipment).then((resp) => {
-      if (resp.data.equipment === undefined) {
+  updateFieldPlace(event) {
+    const new_place = { ...this.state.new_place };
+    new_place[event.target.name] = event.target.value;
+    this.setState({ new_place });
+  }
+
+  savePlaceToPlace() {
+    const place = this.state.new_place;
+    const url = `${baseUrlPlacesToPlace}/${this.state.place_id}`
+    axios.put(url, place).then((resp) => {
+      console.log('resp', resp);
+      if (resp.data.place === undefined) {
         this.setState({ msg: resp.data.messenger, status: resp.data.status });
       } else {
-        const list = this.getUpdatedList(resp.data.equipment);
         this.setState({
-          equipment: initialState.equipment,
-          list,
+          place: initialState.place,
           msg: resp.data.messenger,
           status: resp.data.status,
         });
       }
       this.showAlert();
     });
+  }
+
+  showAlert() {
+    console.log(this.state.status);
+    if (this.state.status === 422) {
+      toast.error(this.state.msg);
+    } else {
+      toast.success(this.state.msg);
+      this.clear();
+    }
   }
 
   render() {
@@ -88,8 +102,7 @@ export default class Home extends Component {
         <div className="display-4">Bem Vindo!</div>
         <hr />
         <p className="mb-0">
-          Sistema para realizar um inventário e catalogar todos esses
-          equipamentos
+          Sistema para realizar um inventário e catalogar equipamentos
         </p>
 
         <button
@@ -139,28 +152,28 @@ export default class Home extends Component {
                     <label for="recipient-name" class="col-form-label">
                       Equipamentos:
                     </label>
-										<div className="form-group">
-                    <select
-                      className="form-select"
-                      id="id"
-                      name="id"
-                      onChange={(e) => this.updateFieldEquipment(e)}
-                      value={this.state.equipment.id}
-                    >
-                      <option value="" selected>
-                        Selecione...
-                      </option>
-                      {this.state.equipments && this.state.equipments.length > 0 ? (
-                        this.state.equipments.map((equipment) => (
-                          <option value={equipment.id}>{equipment.name}</option>
-                        ))
-                      ) : (
-                        <option selected disabled>
-                          Não foram encontrado equipamentos 
+                    <div className="form-group">
+                      <select
+                        className="form-select"
+                        id="id"
+                        name="id"
+                        onChange={(e) => this.updateFieldEquipment(e)}
+                        value={this.state.equipment.id}
+                      >
+                        <option value="" selected>
+                          Selecione...
                         </option>
-                      )}
-                    </select>
-										</div>
+                        {this.state.equipments && this.state.equipments.length > 0 ? (
+                          this.state.equipments.map((equipment) => (
+                            <option value={equipment.id}>{equipment.name}</option>
+                          ))
+                        ) : (
+                          <option selected disabled>
+                            Não foram encontrado equipamentos
+                          </option>
+                        )}
+                      </select>
+                    </div>
                   </div>
                   <div class="form-group">
                     <label for="message-text" class="col-form-label">
@@ -198,10 +211,13 @@ export default class Home extends Component {
                   class="btn btn-secondary"
                   data-dismiss="modal"
                 >
-                  Close
+                  Fecha
                 </button>
-                <button type="button" class="btn btn-primary">
-                  Send message
+                <button
+                  className="btn btn-success  ml-2"
+                  onClick={(e) => this.saveEquipmentToPlace(e)}
+                >
+                  Salvar
                 </button>
               </div>
             </div>
@@ -220,7 +236,7 @@ export default class Home extends Component {
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="subplaceModal">
-                  Adicionar locais
+                  Adicionar setores ou salas em outros locais
                 </h5>
                 <button
                   type="button"
@@ -233,21 +249,43 @@ export default class Home extends Component {
               </div>
               <div class="modal-body">
                 <form>
+                  <label for="recipient-name" class="col-form-label">
+                    Equipamentos:
+                  </label>
                   <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">
-                      Recipient:
-                    </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="recipient-name"
-                    />
+
+                    <select
+                      className="form-select"
+                      id="id"
+                      name="id"
+                      onChange={(e) => this.setCurrentPlaceId(e)}
+                    >
+                      <option value="" selected>
+                        Selecione...
+                      </option>
+                      {this.state.places && this.state.places.length > 0 ? (
+                        this.state.places.map((place) => (
+                          <option value={place.id}>{place.name}</option>
+                        ))
+                      ) : (
+                        <option selected disabled>
+                          Não foram encontrado locais (Cadastre um novo!)
+                        </option>
+                      )}
+                    </select>
                   </div>
                   <div class="form-group">
                     <label for="message-text" class="col-form-label">
-                      Message:
+                      Local
                     </label>
-                    <textarea class="form-control" id="message-text"></textarea>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="name"
+                      value={this.state.new_place.name}
+                      onChange={(e) => this.updateFieldPlace(e)}
+                      placeholder="Digite o nome..."
+                    />
                   </div>
                 </form>
               </div>
@@ -257,10 +295,13 @@ export default class Home extends Component {
                   class="btn btn-secondary"
                   data-dismiss="modal"
                 >
-                  Close
+                  Fechar
                 </button>
-                <button type="button" class="btn btn-primary">
-                  Send message
+                <button
+                  className="btn btn-success  ml-2"
+                  onClick={(e) => this.savePlaceToPlace(e)}
+                >
+                  Salvar
                 </button>
               </div>
             </div>

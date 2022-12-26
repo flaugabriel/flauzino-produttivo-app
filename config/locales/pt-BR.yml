@@ -4,6 +4,19 @@ pt-BR:
       all: "Voçê não tem acesso á este recurso"
 
   activerecord:
+    models:
+      place: Local
+      equipment: Equipamento
+    attributes: 
+      place: 
+        name: Nome
+      equipment:
+        code: Código
+        name: Nome
+        Mark: Marca
+        type_equipment: Tipo de equipamento
+        description: Descrição
+  
     errors:
       messages:
         record_invalid: 'A validação falhou: %{errors}'

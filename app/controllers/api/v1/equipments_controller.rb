@@ -26,14 +26,6 @@ class Api::V1::EquipmentsController < ApplicationController
     end
   end
 
-  def aggregate_to_place
-    if @equipment.update(equipment_params)
-      render json: { messenger: 'Atualizado com successo!', equipment: @equipment }, status: :ok
-    else
-      render json: { messenger: @equipment.errors.full_messages.to_sentence, status: 422 }
-    end
-  end
-
   def update
     if @equipment.update(equipment_params)
       render json: { messenger: 'Atualizado com successo!', equipment: @equipment }, status: :ok
@@ -48,11 +40,11 @@ class Api::V1::EquipmentsController < ApplicationController
 
   private
 
-    def set_equipment
-      @equipment = Equipment.find(params[:id])
-    end
+  def set_equipment
+    @equipment = Equipment.find(params[:id])
+  end
 
-    def equipment_params
-      params.require(:equipment).permit(:id, :code, :name, :mark, :type_equipment, :description, :place_id)
-    end
+  def equipment_params
+    params.require(:equipment).permit(:id, :code, :name, :mark, :type_equipment, :description, :place_id)
+  end
 end

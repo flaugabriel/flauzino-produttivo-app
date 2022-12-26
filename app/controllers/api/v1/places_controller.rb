@@ -27,12 +27,11 @@ class Api::V1::PlacesController < ApplicationController
   end
 
   def build_ancestry
-    if @place.children.create(place_params)
-      place = Place.find_by(id: params[:id]).subtree.arrange_serializable { |parent, children| Api::V1::PlaceAncestrySerializer.new(parent, children: children) }
-
-      render json: { messenger: "Local vinculado ao #{@place.name}", place: place }, status: :created
+    new_place = @place.children.new(place_params)
+    if new_place.save
+      render json: { messenger: "Local vinculado em #{@place.name}", place: new_place }, status: :created
     else
-      render json: { messenger: place.errors.full_messages.to_sentence, status: 422 }
+      render json: { messenger: new_place.errors.full_messages.to_sentence, status: 422 }
     end
   end
 
@@ -50,18 +49,19 @@ class Api::V1::PlacesController < ApplicationController
     else
       @place.destroy
     end
-
   end
 
   private
-  
-    # Use callbacks to share common setup or constraints between actions.
-    def set_place
+
+  def set_place
+    if params[:id].to_i.zero?
+      render json: { messenger: 'Local não encontrado', status: 422 }
+    else
       @place = Place.find(params[:id])
     end
+  end
 
-    # Only allow a list of trusted parameters through.
-    def place_params
-      params.require(:place).permit(:id, :name)
-    end
+  def place_params
+    params.require(:place).permit(:id, :name)
+  end
 end
