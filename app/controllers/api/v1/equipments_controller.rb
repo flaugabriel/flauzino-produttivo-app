@@ -17,8 +17,8 @@ class Api::V1::EquipmentsController < ApplicationController
   end
 
   def create
+    params[:equipment][:place_id] = params[:equipment][:place_id].nil? ? '' : params[:equipment][:place_id]
     equipment = Equipment.new(equipment_params)
-
     if equipment.save
       render json: { messenger: 'Cadastro realizado', equipment: equipment }, status: :created
     else
@@ -45,6 +45,6 @@ class Api::V1::EquipmentsController < ApplicationController
   end
 
   def equipment_params
-    params.require(:equipment).permit(:id, :code, :name, :mark, :type_equipment, :description, :place_id)
+    params.require(:equipment).permit(:id, :code, :name, :mark, :type_equipment, :description, :place_id, :image)
   end
 end

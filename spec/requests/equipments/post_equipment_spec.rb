@@ -4,6 +4,7 @@ require 'rails_helper'
 RSpec.describe 'Equipment', type: :request do
   describe 'POST /create' do
     context 'with valid parameters' do
+      let(:place) { FactoryBot.create(:place) }
       let!(:my_equipment) { FactoryBot.create(:equipment) }
 
       before do
@@ -13,7 +14,8 @@ RSpec.describe 'Equipment', type: :request do
                             code: my_equipment.code,
                             name: my_equipment.name,
                             mark: my_equipment.mark,
-                            type_equipment: my_equipment.type_equipment
+                            type_equipment: my_equipment.type_equipment,
+                            place_id: place.id
                           } }
       end
 

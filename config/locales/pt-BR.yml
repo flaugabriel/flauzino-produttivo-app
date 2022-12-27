@@ -13,6 +13,7 @@ pt-BR:
       equipment:
         code: Código
         name: Nome
+        image: Imagem
         Mark: Marca
         type_equipment: Tipo de equipamento
         description: Descrição

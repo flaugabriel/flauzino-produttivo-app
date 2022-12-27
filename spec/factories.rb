@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :place do
-    name { Faker::Name.name}
+    name { Faker::Name.name }
   end
 
   factory :equipment do
@@ -9,5 +9,7 @@ FactoryBot.define do
     mark { Faker::Appliance.brand }
     type_equipment { Faker::Number.within(range: 0..5) }
     description { Faker::Computer.stack }
+
+    place { FactoryBot.create(:place)}
   end
 end
