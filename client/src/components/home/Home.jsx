@@ -215,6 +215,7 @@ export default class Home extends Component {
                 </button>
                 <button
                   className="btn btn-success  ml-2"
+                  data-dismiss="modal"
                   onClick={(e) => this.saveEquipmentToPlace(e)}
                 >
                   Salvar
@@ -299,6 +300,7 @@ export default class Home extends Component {
                 </button>
                 <button
                   className="btn btn-success  ml-2"
+                  data-dismiss="modal"
                   onClick={(e) => this.savePlaceToPlace(e)}
                 >
                   Salvar
