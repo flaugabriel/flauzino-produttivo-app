@@ -107,7 +107,7 @@ export default class Home extends Component {
 
         <button
           type="button"
-          class="btn btn-primary"
+          className="btn btn-primary"
           data-toggle="modal"
           data-target="#subplace"
           data-whatever="@fat"
@@ -116,7 +116,7 @@ export default class Home extends Component {
         </button>
         <button
           type="button"
-          class="btn btn-primary ml-2"
+          className="btn btn-primary ml-2"
           data-toggle="modal"
           data-target="#exampleModal"
           data-whatever="@fat"
@@ -124,32 +124,32 @@ export default class Home extends Component {
           Vincule equipamentos em locais.
         </button>
         <div
-          class="modal fade"
+          className="modal fade"
           id="exampleModal"
           tabindex="-1"
           role="dialog"
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">
                   Vincular equipamentos em locais
                 </h5>
                 <button
                   type="button"
-                  class="close"
+                  className="close"
                   data-dismiss="modal"
                   aria-label="Close"
                 >
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
+              <div className="modal-body">
                 <form>
-                  <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">
+                  <div className="form-group">
+                    <label for="recipient-name" className="col-form-label">
                       Equipamentos:
                     </label>
                     <div className="form-group">
@@ -175,8 +175,8 @@ export default class Home extends Component {
                       </select>
                     </div>
                   </div>
-                  <div class="form-group">
-                    <label for="message-text" class="col-form-label">
+                  <div className="form-group">
+                    <label for="message-text" className="col-form-label">
                       Locais:
                     </label>
                     <div className="form-group">
@@ -205,10 +205,10 @@ export default class Home extends Component {
                   </div>
                 </form>
               </div>
-              <div class="modal-footer">
+              <div className="modal-footer">
                 <button
                   type="button"
-                  class="btn btn-secondary"
+                  className="btn btn-secondary"
                   data-dismiss="modal"
                 >
                   Fecha
@@ -225,34 +225,34 @@ export default class Home extends Component {
         </div>
 
         <div
-          class="modal fade"
+          className="modal fade"
           id="subplace"
           tabindex="-1"
           role="dialog"
           aria-labelledby="subplaceModal"
           aria-hidden="true"
         >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="subplaceModal">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="subplaceModal">
                   Adicionar setores ou salas em outros locais
                 </h5>
                 <button
                   type="button"
-                  class="close"
+                  className="close"
                   data-dismiss="modal"
                   aria-label="Close"
                 >
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
+              <div className="modal-body">
                 <form>
-                  <label for="recipient-name" class="col-form-label">
+                  <label for="recipient-name" className="col-form-label">
                     Equipamentos:
                   </label>
-                  <div class="form-group">
+                  <div className="form-group">
 
                     <select
                       className="form-select"
@@ -274,8 +274,8 @@ export default class Home extends Component {
                       )}
                     </select>
                   </div>
-                  <div class="form-group">
-                    <label for="message-text" class="col-form-label">
+                  <div className="form-group">
+                    <label for="message-text" className="col-form-label">
                       Local
                     </label>
                     <input
@@ -289,10 +289,10 @@ export default class Home extends Component {
                   </div>
                 </form>
               </div>
-              <div class="modal-footer">
+              <div className="modal-footer">
                 <button
                   type="button"
-                  class="btn btn-secondary"
+                  className="btn btn-secondary"
                   data-dismiss="modal"
                 >
                   Fechar

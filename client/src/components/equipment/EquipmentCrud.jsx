@@ -12,17 +12,17 @@ const headerProps = {
 const baseUrl = "http://localhost:3030/api/v1/equipments";
 const baseUrlPlaces = "http://localhost:3030/api/v1/places";
 const initialState = {
-  equipment: {
-    code: '',
-    name: "",
-    mark: "",
-    type_equipment: "",
-    description: "",
-    place_id: "",
-  },
+  equipment: {id: ''},
+  code: '',
+  name: "",
+  mark: "",
+  type_equipment: "",
+  description: "",
+  place_id: '',
   places: [],
   list: [],
 	filterClearn: false,
+  imageUpdate: null,
   msg: "",
   status: 0,
 };
@@ -56,14 +56,32 @@ export default class EquipmentCrud extends Component {
   }
 
   clear() {
-    this.setState({ equipment: initialState.equipment });
+    this.setState({  equipment: {id: ''},
+    code: '',
+    name: "",
+    mark: "",
+    type_equipment: "",
+    description: "",
+    place_id: null,});
   }
 
   save() {
-    const equipment = this.state.equipment;
+    const equipment = this.state.equipment
+    const formData = new FormData();
+    formData.append('equipment[code]', this.state.code)
+    formData.append('equipment[name]', this.state.name)
+    formData.append('equipment[mark]', this.state.mark)
+    if (this.state.imageUpdate) {
+      formData.append('equipment[image]', this.state.imageUpdate)
+    }
+    formData.append('equipment[type_equipment]', this.state.type_equipment.toLowerCase())
+    formData.append('equipment[description]', this.state.description)
+    formData.append('equipment[place_id]', this.state.place_id === 0 ? null : this.state.place_id)
+
+    console.log('sadf', this.state.place_id === '' ? '' : this.state.place_id);
     const method = equipment.id ? "put" : "post";
     const url = equipment.id ? `${baseUrl}/${equipment.id}` : baseUrl;
-    axios[method](url, equipment).then((resp) => {
+    axios[method](url, formData).then((resp) => {
       if (resp.data.equipment === undefined) {
         this.setState({ msg: resp.data.messenger, status: resp.data.status });
       } else {
@@ -74,6 +92,7 @@ export default class EquipmentCrud extends Component {
           msg: resp.data.messenger,
           status: resp.data.status,
         });
+      this.clear()
       }
       this.showAlert();
     });
@@ -95,25 +114,39 @@ export default class EquipmentCrud extends Component {
     }
   }
 
-  updateField(event) {
-    const equipment = { ...this.state.equipment };
-    equipment[event.target.name] = event.target.value;
-    this.setState({ equipment });
-  }
+  onImageChange = event => { 
+    this.setState({ imageUpdate: event.target.files[0] });
+  };
+
 
   renderForm() {
     return (
       <div className="form">
         <div className="row">
-          <div className="col-12 col-md-6">
+          <div className="col-12 col-md-3">
+            <div className="form-group">
+              {
+                this.state.imageUpdate &&
+                <img src={this.state.imageUpdate } className="rounded mx-auto d-block" alt={this.state.name} width={100} height={100}/>
+              } 
+            </div>
+          </div>
+
+          <div className="col-12 col-md-3">
+            <label>Imagem</label>
+            <div className="form-group">
+            <input type="file" accept="image/*" name="image" multiple={false} onChange={(e) => this.onImageChange(e)} />
+            </div>
+          </div>
+          <div className="col-12 col-md-3">
             <div className="form-group">
               <label>Codígo</label>
               <input
                 type="number"
                 className="form-control"
                 name="code"
-                value={this.state.equipment.code}
-                onChange={(e) => this.updateField(e)}
+                value={this.state.code}
+                onChange={(e) => this.setState({code: e.target.value})}
                 placeholder="Digite o codigo..."
               />
             </div>
@@ -126,8 +159,8 @@ export default class EquipmentCrud extends Component {
                 type="text"
                 className="form-control"
                 name="name"
-                value={this.state.equipment.name}
-                onChange={(e) => this.updateField(e)}
+                value={this.state.name}
+                onChange={(e) => this.setState({name: e.target.value})}
                 placeholder="Digite o nome..."
               />
             </div>
@@ -140,8 +173,8 @@ export default class EquipmentCrud extends Component {
                 type="text"
                 className="form-control"
                 name="mark"
-                value={this.state.equipment.mark}
-                onChange={(e) => this.updateField(e)}
+                value={this.state.mark}
+                onChange={(e) => this.setState({mark: e.target.value})}
                 placeholder="Digite uma marca..."
               />
             </div>
@@ -154,8 +187,8 @@ export default class EquipmentCrud extends Component {
                 className="form-select"
                 id="type_equipment"
                 name="type_equipment"
-                onChange={(e) => this.updateField(e)}
-                value={this.state.equipment.type_equipment}
+                onChange={(e) => this.setState({type_equipment: e.target.value})}
+                value={this.state.type_equipment.toLowerCase()}
               >
                 <option value="" selected>
                   Selecione um tipo de equipamento
@@ -177,10 +210,10 @@ export default class EquipmentCrud extends Component {
                 className="form-select"
                 id="place_id"
                 name="place_id"
-                onChange={(e) => this.updateField(e)}
-                value={this.state.equipment.place_id}
+                onChange={(e) => this.setState({place_id: e.target.value})}
+                value={this.state.place_id}
               >
-                <option value="" selected>
+                <option value="0" selected>
                   Adiciona em um local
                 </option>
                 {this.state.places && this.state.places.length > 0 ? (
@@ -203,8 +236,8 @@ export default class EquipmentCrud extends Component {
                 type="text"
                 className="form-control"
                 name="description"
-                value={this.state.equipment.description}
-                onChange={(e) => this.updateField(e)}
+                onChange={(e) => this.setState({description: e.target.value})}
+                value={this.state.description}
                 placeholder="Digite uma descrição..."
               />
             </div>
@@ -214,16 +247,16 @@ export default class EquipmentCrud extends Component {
         <hr />
         <div className="row">
           <div className="col-12 d-flex justify-content-end">
-            <div class="input-group">
+            <div className="input-group">
               <input
                 type="text"
-                class="form-control"
+                className="form-control"
                 placeholder="Busca por nome"
 								onChange={(e) => this.fetchNameFilter(e)}
               />
-              <div class="input-group-append">
-                <button class="btn btn-secondary" type="button">
-                  <i class="fa fa-search"></i>
+              <div className="input-group-append">
+                <button className="btn btn-secondary" type="button">
+                  <i className="fa fa-search"></i>
                 </button>
               </div>
             </div>
@@ -280,7 +313,16 @@ export default class EquipmentCrud extends Component {
   }
 
   load(equipment) {
-    this.setState({ equipment });
+    console.log(equipment.place && equipment.place.id);
+    this.setState({  
+    equipment: {id: equipment.id},
+    code: equipment.code,
+    name: equipment.name,
+    imageUpdate: equipment.image,
+    mark: equipment.mark,
+    type_equipment: equipment.type_equipment,
+    description: equipment.description,
+    place_id: equipment.place &&  ''});
   }
 
   remove(equipment) {
@@ -296,6 +338,7 @@ export default class EquipmentCrud extends Component {
       <table className="table mt-4">
         <thead>
           <tr>
+            <th>Imagem</th>
             <th>Code</th>
             <th>Nome</th>
             <th>Marca</th>
@@ -311,9 +354,21 @@ export default class EquipmentCrud extends Component {
   }
 
   renderRows() {
+    console.log(this.state.list);
     return this.state.list.map((equipment) => {
       return (
         <tr key={equipment.id}>
+          <td>
+            <figure className="figure">
+              {
+                equipment.image_url ?
+                <img src={equipment.image_url } className="rounded mx-auto d-block" alt={equipment.name} width={100} height={100}/>
+                  :
+                <img src="https://cdn-icons-png.flaticon.com/512/3040/3040763.png" width={100} height={100} className="rounded mx-auto d-block" alt={equipment.name} />
+
+              }
+            </figure>
+          </td>
           <td>{equipment.code}</td>
           <td>{equipment.name}</td>
           <td>{equipment.mark}</td>
