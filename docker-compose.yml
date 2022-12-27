@@ -1,40 +1,6 @@
 version: "3"
 
 services:
-  web: &web
-    container_name: web
-    build:
-      context: .
-      dockerfile: DockerFile.dev
-    tty: true
-    command: bash start.sh
-    volumes:
-      - .:/client
-    ports:
-      - 3030:3030
-    depends_on:
-      - db
-    links:
-      - db
-
-  client: &client
-    container_name: client
-    build:
-      context: ./client
-      dockerfile: DockerFile.dev
-    command: bash start-client.sh
-    tty: true
-    stdin_open: true
-    volumes:
-      - .:/web
-    ports:
-      - 3000:3000
-    depends_on:
-      - db
-      - web
-    links:
-      - db
-
   db:
     image: postgres
     environment:
