@@ -22,12 +22,12 @@ git clone https://github.com/flaugabriel/flauzino-produttivo-app.git && cd flauz
 ```
 Terminal 1
 ```shell
-# setup
 docker compose up 
 ```
 Terminal 2
 ```shell
 cd flauzino-produttivo-app
+bundle install
 rails db:create db:migrate db:seed
 rails s -p 3030
 ```
