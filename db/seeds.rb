@@ -7,17 +7,53 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 require 'i18n'
+place_1 = Place.create(name: 'Setor 1')
+place_2 = Place.create(name: 'Setor 2')
+place_3 = Place.create(name: 'Setor 3')
+place_4 = Place.create(name: 'Setor 4')
+place_5 = Place.create(name: 'Setor 5')
 
-100.times do
-  Equipment.create(
-    name: Faker::Name.name,
-    description: Faker::Book.title,
-    code: Faker::Number.number(digits: 5),
-    mark: Faker::Appliance.brand,
-    type_equipment: Faker::Number.within(range: 0..5)
-  )
-end
+Equipment.create(
+  name: Faker::Name.name,
+  description: Faker::Book.title,
+  code: Faker::Number.number(digits: 5),
+  mark: Faker::Appliance.brand,
+  type_equipment: Faker::Number.within(range: 0..5),
+  place_id: place_1.id
+)
 
-50.times do
-  Place.create(name: Faker::Game.title)
-end
+Equipment.create(
+  name: Faker::Name.name,
+  description: Faker::Book.title,
+  code: Faker::Number.number(digits: 5),
+  mark: Faker::Appliance.brand,
+  type_equipment: Faker::Number.within(range: 0..5),
+  place_id: place_2.id
+)
+
+Equipment.create(
+  name: Faker::Name.name,
+  description: Faker::Book.title,
+  code: Faker::Number.number(digits: 5),
+  mark: Faker::Appliance.brand,
+  type_equipment: Faker::Number.within(range: 0..5),
+  place_id: place_3.id
+)
+
+Equipment.create(
+  name: Faker::Name.name,
+  description: Faker::Book.title,
+  code: Faker::Number.number(digits: 5),
+  mark: Faker::Appliance.brand,
+  type_equipment: Faker::Number.within(range: 0..5),
+  place_id: place_4.id
+)
+
+Equipment.create(
+  name: Faker::Name.name,
+  description: Faker::Book.title,
+  code: Faker::Number.number(digits: 5),
+  mark: Faker::Appliance.brand,
+  type_equipment: Faker::Number.within(range: 0..5),
+  place_id: place_5.id
+)

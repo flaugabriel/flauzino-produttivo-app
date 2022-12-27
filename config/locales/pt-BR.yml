@@ -17,8 +17,14 @@ pt-BR:
         Mark: Marca
         type_equipment: Tipo de equipamento
         description: Descrição
+        place: Local
   
     errors:
+      models:
+        equipment:
+          attributes:
+            place: 
+              blank: 'Deve existir'
       messages:
         record_invalid: 'A validação falhou: %{errors}'
         restrict_dependent_destroy:

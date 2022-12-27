@@ -118,20 +118,10 @@ export default class EquipmentCrud extends Component {
     this.setState({ imageUpdate: event.target.files[0] });
   };
 
-
   renderForm() {
     return (
       <div className="form">
         <div className="row">
-          <div className="col-12 col-md-3">
-            <div className="form-group">
-              {
-                this.state.imageUpdate &&
-                <img src={this.state.imageUpdate } className="rounded mx-auto d-block" alt={this.state.name} width={100} height={100}/>
-              } 
-            </div>
-          </div>
-
           <div className="col-12 col-md-3">
             <label>Imagem</label>
             <div className="form-group">
@@ -354,8 +344,7 @@ export default class EquipmentCrud extends Component {
   }
 
   renderRows() {
-    console.log(this.state.list);
-    return this.state.list.map((equipment) => {
+    return this.state.list.length && this.state.list.map((equipment) => {
       return (
         <tr key={equipment.id}>
           <td>

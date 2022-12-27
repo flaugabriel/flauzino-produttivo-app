@@ -28,7 +28,9 @@ Terminal 2
 ```shell
 cd flauzino-produttivo-app
 bundle install
-rails db:create db:migrate db:seed
+rails db:create
+rails db:migrate
+rails db:seed
 rails s -p 3030
 ```
 Terminal 3
