@@ -1,5 +1,5 @@
 # README
-### Projeto para Teste Full-Stack Ruby on Rails API + React + Docker + Postgres Vaga (Produttivo)
+### Projeto para Teste Full-Stack Ruby on Rails API + React + Docker + Sistema de Inventario e catalogo de produtos 
 
 M.E.R 
 
